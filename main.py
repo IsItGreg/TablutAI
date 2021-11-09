@@ -1,9 +1,10 @@
 from copy import deepcopy
+import random
 
 
 def emptyBoard():
     board = []
-    for i in range(9):
+    for _ in range(9):
         board.append([' '] * 9)
     return board
 
@@ -101,6 +102,39 @@ def getNextBoard(board, move):
     new = move[1]
     nextBoard[new[0]][new[1]] = nextBoard[old[0]][old[1]]
     nextBoard[old[0]][old[1]] = ' '
+    if old[0] == 4 and old[1] == 4:
+        nextBoard[4][4] = 'c'
+
+    p = 'w' if nextBoard[new[0]][new[1]] != 'b' else 'b'
+    np = 'b' if p == 'w' else 'w'
+
+    # Capturing
+    if nextBoard[new[0]][new[1]] == 'K':
+        pass
+    else:
+        try:
+            if nextBoard[new[0] + 1][new[1]] == np and nextBoard[new[0] + 2][new[1]] == p or nextBoard[new[0] + 2][new[1]] == 'e':
+                nextBoard[new[0] + 1][new[1]] = ' '
+        except:
+            pass
+            
+        try:
+            if nextBoard[new[0] - 1][new[1]] == np and nextBoard[new[0] - 2][new[1]] == p or nextBoard[new[0] - 2][new[1]] == 'e':
+                nextBoard[new[0] - 1][new[1]] = ' '
+        except:
+            pass
+
+        try:
+            if nextBoard[new[0]][new[1] + 1] == np and nextBoard[new[0]][new[1] + 2] == p or nextBoard[new[0]][new[1] + 2] == 'e':
+                nextBoard[new[0]][new[1] + 1] = ' '
+        except:
+            pass
+
+        try:
+            if nextBoard[new[0]][new[1] - 1] == np and nextBoard[new[0]][new[1] - 2] == p or nextBoard[new[0]][new[1] - 2] == 'e':
+                nextBoard[new[0]][new[1] - 1] = ' '
+        except:
+            pass
 
     return nextBoard
 
@@ -146,9 +180,24 @@ def main():
 
     printBoard(board)
 
-    for board in getAllNextBoards(board, 'w'):
-        printBoard(board)
-        print()
+    boards = [board]
+
+    p, np = 'b', 'w'
+
+    while checkGameEnd(boards) == 'in progress':
+        nboards = getAllNextBoards(boards[-1], p)
+        boards.append(random.choice(nboards))
+
+        print('-----------------')
+        printBoard(boards[-1])
+        print('-----------------\n')
+
+        p, np = np, p
+
+    print('Game end - ' + checkGameEnd(boards))
+    print('Num moves - ' + str(len(boards)))
+
+
 
 
 if __name__ == '__main__':
