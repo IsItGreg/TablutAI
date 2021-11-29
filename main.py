@@ -4,6 +4,8 @@ import multiprocessing as mp
 
 
 def model_predict(model, nboards, p):
+
+
     return max([(model.evaluate(board, p), board) for board in nboards])[1]
 
 

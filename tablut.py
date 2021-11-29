@@ -79,6 +79,7 @@ def getMovesForPiece(board, x, y):
     return moves
 
 
+# what does this function do?
 def getPiecesToMove(board, p):
     pieces = []
     for i in range(9):
