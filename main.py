@@ -46,7 +46,7 @@ def run_games(model_b, model_w, num_games = 20, max_moves = 120, i = None, j = N
 
     for result in results:
         if (result[0] != 'draw'):
-            print(str(i) if result[0] == 'b' else str(j) + " won as " + result[0] + "!")
+            print((str(i) if result[0] == 'b' else str(j)) + " won as " + result[0] + "!")
 
         score_b += 10 if result[0] == 'b' else -20 if result[0] == 'w' else 0
         score_w += 10 if result[0] == 'w' else -20 if result[0] == 'b' else 0
@@ -67,7 +67,7 @@ def set_up_models(num_models = 10, loadFromFile = None):
     if loadFromFile is not None:
         models = [TablutModel(fromFile=loadFromFile)]
         for _ in range(num_models - 1):
-            models.append(models[0].make_child())
+            models.append(models[0].make_child(1e-1))
     else:
         models  = [TablutModel() for _ in range(num_models)]
 
@@ -99,11 +99,18 @@ def train_models(models, num_games = 20, max_moves = 80, v=False):
     pass
 
 
+def fightModels(iteration_b, iteration_w):
+    model_b = TablutModel(fromFile=iteration_b)
+    model_w = TablutModel(fromFile=iteration_w)
+
+    print(play_game(model_b, model_w, max_moves=500))
+    print(play_game(model_w, model_b, max_moves=500))
+
 
 def main():
-    num_iterations = 100
+    num_iterations = 10000
     num_models = 16  # must be even
-    max_moves = 80
+    max_moves = 240
     num_games = 1
     loadFromFile = None
 
@@ -140,3 +147,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # fightModels(0, 1184)

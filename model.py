@@ -17,7 +17,7 @@ class TablutModel:
     b3 = np.zeros((1,))
 
 
-    def __init__(self, parent_weights=None, l=1e-2, fromFile=None):
+    def __init__(self, parent_weights=None, l=1e-1, fromFile=None):
         if fromFile:
             self.w1 = np.genfromtxt('saves/' + str(fromFile) + '/w1.csv', delimiter=',')
             self.b1 = np.genfromtxt('saves/' + str(fromFile) + '/b1.csv', delimiter=',')
@@ -80,9 +80,9 @@ class TablutModel:
         # return random.random()
 
 
-    def make_child(self) -> 'TablutModel':
+    def make_child(self, l=1e-3) -> 'TablutModel':
         weights = (self.w1, self.b1, self.w2, self.b2, self.w3, self.b3, self.name)
-        return TablutModel(weights)
+        return TablutModel(weights, l)
 
     
     def saveToFiles(self, iteration):
