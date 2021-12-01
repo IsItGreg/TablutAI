@@ -46,7 +46,8 @@ def run_games(model_b, model_w, num_games = 20, max_moves = 120, i = None, j = N
 
     for result in results:
         if (result[0] != 'draw'):
-            print("Game won! " + result[0] + " won!")
+            print(str(i) if result[0] == 'b' else str(j) + " won as " + result[0] + "!")
+
         score_b += 10 if result[0] == 'b' else -20 if result[0] == 'w' else 0
         score_w += 10 if result[0] == 'w' else -20 if result[0] == 'b' else 0
 
@@ -100,7 +101,7 @@ def train_models(models, num_games = 20, max_moves = 80, v=False):
 
 
 def main():
-    num_iterations = 40
+    num_iterations = 100
     num_models = 16  # must be even
     max_moves = 80
     num_games = 1
@@ -119,14 +120,13 @@ def main():
 
         train_models(models, num_games=num_games, max_moves=max_moves, v=False)
 
-        models.sort(key = lambda x: x.score, reverse = True)
-
-        for j, model in enumerate(models):
-            print(str(j) + ' : ' + str(model.score))
-
-        
+        # sorted = enumerate(models).sort(key = lambda x: x[1].score, reverse = True)
+        by_score = sorted(enumerate(models), key = lambda x: x[1].score, reverse = True)
+        for (j, model) in by_score:
+            print(str(j) + ' : ' + str(model.score) + ' ' + model.name)
+    
         # best models
-        
+        models.sort(key = lambda x: x.score, reverse = True)
         models = models[:len(models)//2]
         for j in range(len(models)):
             models.append(models[j].make_child())

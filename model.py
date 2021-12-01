@@ -1,10 +1,12 @@
 import random
 import numpy as np
 import os.path
+import string
 
 
 class TablutModel:
     score = 0
+    name = ''
     # weights = 0 # TODO: replace with actual model
 
     w1 = np.zeros((82, 128))
@@ -23,17 +25,19 @@ class TablutModel:
             self.b2 = np.genfromtxt('saves/' + str(fromFile) + '/b2.csv', delimiter=',')
             self.w3 = np.genfromtxt('saves/' + str(fromFile) + '/w3.csv', delimiter=',')
             self.b3 = np.genfromtxt('saves/' + str(fromFile) + '/b3.csv', delimiter=',')
+            self.name = 'file' + str(fromFile)
             pass
 
         
         elif parent_weights is not None:
-            w1, b1, w2, b2, w3, b3 = parent_weights
+            w1, b1, w2, b2, w3, b3, name = parent_weights
             self.w1 = w1 + l * np.random.randn(*w1.shape)
             self.b1 = b1 + l * np.random.randn(*b1.shape)
             self.w2 = w2 + l * np.random.randn(*w2.shape)
             self.b2 = b2 + l * np.random.randn(*b2.shape)
             self.w3 = w3 + l * np.random.randn(*w3.shape)
             self.b3 = b3 + l * np.random.randn(*b3.shape)
+            self.name = name + '_' + random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
 
             # self.weights = parent_weights + l * random.random() 
             # following this idea to add some variation to the child
@@ -45,6 +49,7 @@ class TablutModel:
             self.b2 = np.random.randn(32,)
             self.w3 = np.random.randn(32, 1)
             self.b3 = np.random.randn(1,)
+            self.name = random.choice(string.ascii_letters) + random.choice(string.ascii_letters)
         
 
     def evaluate(self, board, p):
@@ -76,7 +81,7 @@ class TablutModel:
 
 
     def make_child(self) -> 'TablutModel':
-        weights = (self.w1, self.b1, self.w2, self.b2, self.w3, self.b3)
+        weights = (self.w1, self.b1, self.w2, self.b2, self.w3, self.b3, self.name)
         return TablutModel(weights)
 
     
