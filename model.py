@@ -15,7 +15,7 @@ class TablutModel:
     b3 = np.zeros((1,))
 
 
-    def __init__(self, parent_weights=None, l=1e-3, fromFile=None):
+    def __init__(self, parent_weights=None, l=1e-2, fromFile=None):
         if fromFile:
             self.w1 = np.genfromtxt('saves/' + str(fromFile) + '/w1.csv', delimiter=',')
             self.b1 = np.genfromtxt('saves/' + str(fromFile) + '/b1.csv', delimiter=',')
@@ -39,7 +39,6 @@ class TablutModel:
             # following this idea to add some variation to the child
             # might need to adjust the l value
         else:
-            self.weights = random.random()
             self.w1 = np.random.randn(82, 128)
             self.b1 = np.random.randn(128,)
             self.w2 = np.random.randn(128, 32)

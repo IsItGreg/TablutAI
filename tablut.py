@@ -154,6 +154,9 @@ def checkGameEnd(boards, max_moves = 80):
 
     if len(boards) > 4 and boards[-1] == boards[-5] or max_moves != None and len(boards) >= max_moves:
         return 'draw'
+
+    # if len(boards) > max_moves:
+    #     return 'draw'
     
     if len(getAllPossibleMoves(boards[-1], np)) == 0:
         return np
