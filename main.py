@@ -6,9 +6,12 @@ import random
 
 def model_predict(model, nboards, p):
     # check if one board is winning move
-    for board in nboards:
-        if checkGameEnd(board, None) == p:
-            return board
+    # for board in nboards:
+    #     if checkGameEnd(board, None) == p:
+    #         return board
+    if len(nboards) == 0:
+        num = 0
+        pass
     return max([(model.evaluate(board, p), board) for board in nboards])[1]
 
 
@@ -43,7 +46,7 @@ def run_games(model_b, model_w, num_games = 20, max_moves = 120, i = None, j = N
 
     for result in results:
         if (result[0] != 'draw'):
-            print("Game won!")
+            print("Game won! " + result[0] + " won!")
         score_b += 10 if result[0] == 'b' else -20 if result[0] == 'w' else 0
         score_w += 10 if result[0] == 'w' else -20 if result[0] == 'b' else 0
 
@@ -98,7 +101,7 @@ def train_models(models, num_games = 20, max_moves = 80, v=False):
 
 def main():
     num_iterations = 40
-    num_models = 24  # must be even
+    num_models = 16  # must be even
     max_moves = 80
     num_games = 1
     loadFromFile = None

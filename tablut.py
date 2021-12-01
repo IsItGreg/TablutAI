@@ -148,7 +148,7 @@ def getAllNextBoards(board, p):
 
 
 def checkGameEnd(boards, max_moves = 80):
-    if len(boards) < 20: return 'in progress'
+    # if len(boards) < 20: return 'in progress'
     p = 'w' if len(boards) % 2 == 0 else 'b'
     np = 'b' if p == 'w' else 'w'
 
@@ -158,7 +158,7 @@ def checkGameEnd(boards, max_moves = 80):
     # if len(boards) > max_moves:
     #     return 'draw'
     
-    if len(getAllPossibleMoves(boards[-1], np)) == 0:
+    if len(getAllPossibleMoves(boards[-1], p)) == 0:
         return np
     
     if boards[-1][0][0] == 'K' or \
