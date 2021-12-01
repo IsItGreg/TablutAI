@@ -45,10 +45,10 @@ nonlinearity is hyperbolic tangent
 
 class TablutModel(nn.Module):
     score = 0
-    weights = 0  # TODO: replace with actual model
+    weights = 0
 
     # xavier initalizaiton
-    def __init__(self, parent_weights=None, l=1e-3, hidden_size=(40, 10), input_size=82):
+    def __init__(self, parent_weights=None, l=1e-3, hidden_size=(128, 128), input_size=82):
         super(TablutModel, self).__init__()
         self.l1 = nn.Linear(input_size, hidden_size[0])
         self.tanh1 = nn.Tanh()
@@ -84,6 +84,7 @@ class TablutModel(nn.Module):
         tanH = nn.Tanh()
         eval_score = tanH(torch.tensor(num_pieces_player - num_pieces_opposing))
 
+        # returns a score from -1 to 1 through the tanH function
         return eval_score
 
     # xavier initialization
@@ -93,13 +94,19 @@ class TablutModel(nn.Module):
         return TablutModel(self.weights)
 
 
+#Have to do this
 def train(board, p):
-    lossf = nn.MSELoss()
+    board_list = tablut.getAllNextBoards(board, p)
 
-    board_np = np.array(board)
-    input_nn = board_np.ravel()
-    # creates new array with player designation at end of the input
-    input_nn = np.append(input, p)
+    for board in board_list:
+
+        board_np = np.array(board)
+        input_nn = board_np.ravel()
+
+        # creates new array with player designation at end of the input
+        input_nn = np.append(input, p)
+
+
 
     model = TablutModel()
 
@@ -109,4 +116,8 @@ def train(board, p):
 
 
 if __name__ == "__main__":
+    # getallnextboards returns a list of boards
+
+    # put each element in the list
+
     pass
